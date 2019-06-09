@@ -14,20 +14,20 @@ class AccommodationsListApp extends StatelessWidget {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: AccommodationsPage(title: 'API with Flutter'),
+    home: AccommodationsListScreen(title: 'API with Flutter'),
   );
 }
 
-class AccommodationsPage extends StatefulWidget {
-  AccommodationsPage({Key key, this.title}) : super(key: key);
+class AccommodationsListScreen extends StatefulWidget {
+  AccommodationsListScreen({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _AccommodationsPageState createState() => _AccommodationsPageState();
+  _AccommodationsListScreenState createState() => _AccommodationsListScreenState();
 }
 
-class _AccommodationsPageState extends State<AccommodationsPage> {
+class _AccommodationsListScreenState extends State<AccommodationsListScreen> {
   List<Accommodation> _accommodations = <Accommodation>[];
 
   @override

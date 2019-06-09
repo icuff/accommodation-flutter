@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     return new Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Top Beers'),
+        title: Text('Accommodations Flutter'),
       ),
       body: RaisedButton(
         onPressed: () {
