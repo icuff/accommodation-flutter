@@ -29,4 +29,15 @@ class Accommodation {
         estado = jsonMap['estado'],
         latitude = double.parse(jsonMap['latitude']),
         longitude = double.parse(jsonMap['longitude']);
+
+  String tipoString() {
+    switch(tipo) {
+      case 0:
+        return 'Apartamento';
+      case 1:
+        return 'Casa';
+      case 2:
+        return 'Hotel';
+    }
+  }
 }

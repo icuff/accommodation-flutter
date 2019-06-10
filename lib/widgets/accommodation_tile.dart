@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/accommodation.dart';
+import '../accommodation_details.dart';
 
 class AccommodationTile extends StatelessWidget {
   final Accommodation _accommodation;
@@ -18,7 +19,14 @@ class AccommodationTile extends StatelessWidget {
         ],
       ),
       RaisedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AccommodationDetailScreen(accommodation: _accommodation)
+            )
+          );
+        },
         child: Text('Details'),
       ),
       Divider()
