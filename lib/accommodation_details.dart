@@ -1,96 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 import 'models/accommodation.dart';
+import 'widgets/accommodation_detail.dart';
 
-class AccommodationDetailScreen extends StatelessWidget {
-  final Accommodation accommodation;
+class AccommodationDetailApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'API with Flutter',
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: AccommodationDetailScreen(title: 'API with Flutter'),
+  );
+}
+
+class AccommodationDetailScreen extends StatefulWidget {
+  final int id;
+  final String title;
+
+  AccommodationDetailScreen({Key key, this.title, this.id}) : super(key: key);
+
+  @override
+  _AccommodationDetailsScreenState createState() => _AccommodationDetailsScreenState(id);
+}
+
+class _AccommodationDetailsScreenState extends State<AccommodationDetailScreen> {
+  Accommodation _accommodation;
+  List<dynamic> urls;
+  final int id;
+
+  _AccommodationDetailsScreenState(this.id);
+
+  @override
+  void initState() {
+    super.initState();
+    getAccommodation();
+  }
+
+  void getAccommodation() async {
+    String url = 'http://acomodacao-tcc.herokuapp.com/api/v1/acomodacoes/' + id.toString();
+    Response response = await get(url);
+
+    Map<String, dynamic> map = json.decode(response.body);
+
+    setState(() {
+      _accommodation = Accommodation.fromJSON(map['acomodacao']);
+      urls = map['urls'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Details')),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            Text(
-              accommodation.titulo,
-              style: TextStyle(fontSize: 34.0),
-            ),
-            Text(accommodation.tipoString()),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text('Capacidade: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.capacidade.toString())
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text('Preço: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.preco.toString())
-                  ],
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text('Logradouro: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.logradouro)
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text('Número: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.numero)
-                  ],
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text('Complemento: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.complemento)
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text('Bairro: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.bairro)
-                  ],
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text('Cidade: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.cidade)
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text('Estado: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(accommodation.estado)
-                  ],
-                )
-              ],
-            ),
-            Text('Descrição:', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(accommodation.descricao)
-          ],
-        )
+          child: Column(
+            children: <Widget>[
+              AccommodationDetail(_accommodation),
+              Column(
+                children: images(),
+              )
+            ],
+          ),
       ),
     );
   }
 
-  AccommodationDetailScreen({Key key, this.accommodation}) : super(key: key);
+  List<Image> images() {
+    return urls.map((url) => Image.network(url)).toList();
+  }
 }

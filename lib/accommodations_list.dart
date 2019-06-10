@@ -59,9 +59,6 @@ class _AccommodationsListScreenState extends State<AccommodationsListScreen> {
     );
   }
 
-  void getAccommodation() {
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

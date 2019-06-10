@@ -23,7 +23,7 @@ class AccommodationTile extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AccommodationDetailScreen(accommodation: _accommodation)
+                builder: (context) => AccommodationDetailScreen(id: _accommodation.id)
             )
           );
         },
