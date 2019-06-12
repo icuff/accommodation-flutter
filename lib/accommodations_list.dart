@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'models/accommodation.dart';
 import 'widgets/accommodation_tile.dart';
@@ -33,7 +34,9 @@ class _AccommodationsListScreenState extends State<AccommodationsListScreen> {
   @override
   void initState() {
     super.initState();
+    DateTime begin = DateTime.now();
     getListAccommodations();
+    showToast(begin, DateTime.now());
   }
 
   Future<Stream<Accommodation>> getAccommodations() async {
@@ -56,6 +59,18 @@ class _AccommodationsListScreenState extends State<AccommodationsListScreen> {
 
     stream.listen((Accommodation accommodation) =>
         setState(() => _accommodations.add(accommodation))
+    );
+  }
+
+  void showToast(DateTime begin, DateTime end) {
+    String duration = end.difference(begin).inMilliseconds.toString();
+    Fluttertoast.showToast(
+        msg: 'Finished in ' + duration + 'ms',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        textColor: Colors.white,
+        fontSize: 16.0
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'models/accommodation.dart';
 import 'widgets/accommodation_detail.dart';
@@ -41,7 +42,9 @@ class _AccommodationDetailsScreenState extends State<AccommodationDetailScreen> 
   @override
   void initState() {
     super.initState();
+    DateTime begin = DateTime.now();
     getAccommodation();
+    showToast(begin, DateTime.now());
   }
 
   void getAccommodation() async {
@@ -65,6 +68,18 @@ class _AccommodationDetailsScreenState extends State<AccommodationDetailScreen> 
       infoWindow: InfoWindow(title: 'Accommodation', snippet: '*'),
     );
     markers[position] = origin;
+  }
+
+  void showToast(DateTime begin, DateTime end) {
+    String duration = end.difference(begin).inMilliseconds.toString();
+    Fluttertoast.showToast(
+        msg: 'Finished in ' + duration + 'ms',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 
   @override
